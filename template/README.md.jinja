@@ -1,0 +1,38 @@
+# {{ project_name }}
+
+{{ project_description }}
+
+## Requirements
+
+- Python {{ python_version }}+
+- uv
+
+## Development
+
+Install dependencies:
+
+```bash
+uv sync
+```
+
+Run the quality pipeline:
+
+```bash
+just check
+```
+
+Run the test suite:
+
+```bash
+just test
+```
+
+Format the project:
+
+```bash
+just format
+```
+
+## License
+
+{{ license }}
