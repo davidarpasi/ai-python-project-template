@@ -20,6 +20,9 @@ typecheck:
 test:
     uv run pytest
 
+coverage:
+    uv run pytest --cov-report=html
+
 fix:
     uv run ruff check --fix .
     uv run ruff format .

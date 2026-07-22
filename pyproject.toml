@@ -25,6 +25,7 @@ dev = [
     "basedpyright>=1.39.9",
     "pre-commit>=4.6.1",
     "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
     "ruff>=0.15.22",
 ]
 
@@ -49,15 +50,17 @@ quote-style = "double"
 indent-style = "space"
 line-ending = "lf"
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-addopts = [
-    "-ra",
-]
-
 [tool.basedpyright]
 include = ["src", "tests"]
 exclude = [".venv"]
 pythonVersion = "3.12"
 typeCheckingMode = "standard"
 reportMissingTypeStubs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = [
+    "-ra",
+    "--cov=ai_python_project_template",
+    "--cov-report=term-missing",
+]
