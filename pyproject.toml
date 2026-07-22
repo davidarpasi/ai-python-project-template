@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ai-python-project-template"
+version = "0.1.0"
+description = "Production-ready Python AI project template and reusable engineering workspace."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+authors = [
+    { name = "David Arpasi" }
+]
+dependencies = []
+
+[project.scripts]
+ai-python-project-template = "ai_python_project_template.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ai_python_project_template"]
