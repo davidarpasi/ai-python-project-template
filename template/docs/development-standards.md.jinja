@@ -1,0 +1,279 @@
+# Development Standards
+
+## Purpose
+
+This document defines the engineering standards for {{ project_name }}.
+
+The goal is to keep the codebase correct, readable, maintainable, and predictable as the project grows.
+
+## Core principles
+
+### Correctness before optimization
+
+Code must be correct before it is optimized.
+
+Performance changes should be based on evidence such as profiling, benchmarks, or measurable production impact.
+
+### Simplicity
+
+Choose the simplest implementation that:
+
+* solves the current problem
+* remains understandable
+* is maintainable
+* can evolve without unnecessary rework
+
+Avoid abstractions that do not yet solve a real requirement.
+
+### Readability
+
+Code should be easy for another engineer to understand.
+
+Prefer:
+
+* descriptive names
+* small functions
+* explicit control flow
+* limited nesting
+* clear boundaries between responsibilities
+
+### Explicit behavior
+
+Configuration, dependencies, side effects, and failure modes should be visible and understandable.
+
+Avoid hidden state and surprising implicit behavior.
+
+### Single responsibility
+
+Functions, classes, modules, and services should have one clear purpose.
+
+Separate unrelated concerns rather than combining them into large components.
+
+## Python standards
+
+* Use modern Python features supported by the configured minimum Python version.
+* Add type annotations to public functions and important internal interfaces.
+* Prefer specific exception types.
+* Avoid global mutable state.
+* Use dataclasses or validated models when they improve clarity.
+* Keep functions focused and reasonably small.
+* Prefer composition over deep inheritance.
+* Remove dead code and unused dependencies promptly.
+
+## Project structure
+
+Application code belongs under:
+
+```text
+src/{{ package_name }}/
+```
+
+Tests belong under:
+
+```text
+tests/unit/
+tests/integration/
+```
+
+Tests must import the installed package rather than modifying `PYTHONPATH` or importing directly from the repository root.
+
+## Dependency management
+
+Use `uv` for dependency and environment management.
+
+Requirements:
+
+* declare dependencies in `pyproject.toml`
+* commit `uv.lock`
+* install with `uv sync`
+* run project tools through `uv run`
+* avoid adding multiple package managers
+* remove dependencies that are no longer used
+
+New dependencies should be:
+
+* actively maintained
+* appropriately licensed
+* well documented
+* justified by a real project requirement
+
+## Formatting and linting
+
+Ruff is the authoritative formatter and linter.
+
+Run:
+
+```bash
+just lint
+just format
+```
+
+Before committing, run the complete validation pipeline:
+
+```bash
+just check
+```
+
+Do not manually fight the formatter. Update the configuration only when there is a clear project-wide reason.
+
+## Type checking
+
+Basedpyright is the authoritative static type checker.
+
+New code should avoid unnecessary untyped interfaces.
+
+Type suppressions should be:
+
+* narrow
+* documented when non-obvious
+* used only when the underlying issue cannot reasonably be resolved
+
+Do not weaken project-wide type-checking rules to bypass a local problem.
+
+## Testing
+
+New behavior should include tests where practical.
+
+Tests should be:
+
+* deterministic
+* isolated
+* readable
+* fast enough for regular local execution
+* independent of execution order
+
+Unit tests should not require network access or external services.
+
+Integration tests must clearly document any required environment, credentials, services, or fixtures.
+
+Bug fixes should include a regression test whenever possible.
+
+## Coverage
+
+Coverage is a diagnostic tool, not a substitute for meaningful tests.
+
+Tests should focus on:
+
+* important behavior
+* failure paths
+* edge cases
+* public interfaces
+* regression prevention
+
+Do not add low-value tests solely to increase the reported percentage.
+
+## Configuration and secrets
+
+Configuration should be explicit and documented.
+
+Never commit:
+
+* API keys
+* access tokens
+* passwords
+* private keys
+* production credentials
+* real `.env` files
+
+Sensitive values must not appear in logs, exceptions, fixtures, screenshots, or documentation.
+
+## Logging and errors
+
+Errors should fail clearly and provide enough context for diagnosis.
+
+Logging should:
+
+* use appropriate severity levels
+* include useful operational context
+* avoid duplicate noise
+* never expose secrets
+* preserve exception information where useful
+
+Do not silently ignore failures unless that behavior is intentional and documented.
+
+## Git workflow
+
+Each commit should represent one coherent change.
+
+Commits should be:
+
+* atomic
+* descriptive
+* reviewable
+* free from unrelated formatting or generated artifacts
+
+Before committing, run:
+
+```bash
+just check
+```
+
+Do not commit:
+
+* virtual environments
+* cache directories
+* build output
+* coverage files
+* local editor state
+* temporary debugging files
+* credentials or secrets
+
+## Commit messages
+
+Use concise messages that describe the change.
+
+Examples:
+
+```text
+feat: add provider client
+fix: reject invalid configuration
+test: cover CLI failure path
+docs: clarify local setup
+build: update CI dependencies
+refactor: isolate request validation
+```
+
+## Documentation
+
+Update documentation when:
+
+* behavior changes
+* setup steps change
+* commands change
+* configuration changes
+* architecture changes
+* operational requirements change
+
+Significant technical decisions should be recorded as Architecture Decision Records under:
+
+```text
+docs/decisions/
+```
+
+## Continuous integration
+
+GitHub Actions is the authoritative merge gate.
+
+Local and CI validation should use equivalent commands.
+
+A change should not be merged while the required CI checks are failing.
+
+## Security
+
+Use secure defaults.
+
+Requirements:
+
+* validate external input
+* minimize permissions
+* keep dependencies current
+* avoid executing untrusted data
+* do not expose sensitive information
+* document security-sensitive assumptions
+* review third-party integrations carefully
+
+## Continuous improvement
+
+These standards may evolve as the project gains real requirements.
+
+Changes to the standards should be intentional, documented, and proportionate to the problem being solved.

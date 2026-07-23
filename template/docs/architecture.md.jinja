@@ -1,0 +1,212 @@
+# Architecture
+
+## Purpose
+
+{{ project_name }} is a production-ready Python project generated from a reusable Copier template.
+
+Its architecture is designed to provide:
+
+* a clear package structure
+* reproducible dependency management
+* consistent local and CI validation
+* safe, maintainable defaults
+* room for future application-specific growth
+
+## Project structure
+
+```text
+.
+├── .github/
+│   ├── dependabot.yml
+│   └── workflows/
+│       └── ci.yml
+├── docs/
+│   ├── decisions/
+│   ├── architecture.md
+│   ├── definition-of-done.md
+│   └── development-standards.md
+├── src/
+│   └── {{ package_name }}/
+│       ├── __init__.py
+│       └── __main__.py
+├── tests/
+│   ├── integration/
+│   └── unit/
+├── .gitignore
+├── .pre-commit-config.yaml
+├── .python-version
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── README.md
+├── justfile
+├── pyproject.toml
+└── uv.lock
+```
+
+## Source layout
+
+Application code lives under:
+
+```text
+src/{{ package_name }}/
+```
+
+The project uses the `src` layout so tests and development commands import the installed package rather than importing directly from the repository root.
+
+This helps detect packaging errors early and keeps application code clearly separated from tests, documentation, and tooling.
+
+## Package entry point
+
+The executable entry point is defined in `pyproject.toml` and delegates to:
+
+```text
+{{ package_name }}.__main__:main
+```
+
+The application can be run through the generated command or directly with Python.
+
+## Dependency management
+
+The project uses `uv` for:
+
+* Python environment management
+* dependency resolution
+* virtual environment creation
+* lockfile generation
+* command execution
+
+Dependencies are declared in `pyproject.toml` and resolved into `uv.lock`.
+
+The lockfile should be committed to version control to preserve reproducible installations.
+
+## Build system
+
+The project uses Hatchling as its Python build backend.
+
+The build configuration packages the module located at:
+
+```text
+src/{{ package_name }}
+```
+
+This ensures the project can be installed in editable mode during development and built as a standard Python package.
+
+## Developer interface
+
+Common development tasks are exposed through `just`.
+
+The primary commands are:
+
+```bash
+just check
+just format
+just lint
+just typecheck
+just test
+just coverage
+just fix
+just clean
+```
+
+The authoritative local validation command is:
+
+```bash
+just check
+```
+
+It runs:
+
+* Ruff linting
+* Ruff formatting validation
+* Basedpyright static analysis
+* Pytest
+
+## Code quality
+
+The project uses:
+
+| Responsibility | Tool           |
+| -------------- | -------------- |
+| Linting        | Ruff           |
+| Formatting     | Ruff Formatter |
+| Type checking  | Basedpyright   |
+| Testing        | Pytest         |
+| Coverage       | pytest-cov     |
+| Git hooks      | pre-commit     |
+
+Each tool has a distinct responsibility to avoid unnecessary overlap.
+
+## Testing architecture
+
+Tests are separated into:
+
+```text
+tests/unit/
+tests/integration/
+```
+
+Unit tests should remain fast, deterministic, and isolated.
+
+Integration tests may exercise multiple components but should clearly document external dependencies and setup requirements.
+
+Tests import the installed package from the managed environment.
+
+## Continuous integration
+
+GitHub Actions runs the same quality pipeline used locally.
+
+The CI workflow:
+
+1. checks out the repository
+2. installs `uv`
+3. installs the configured Python version
+4. installs `just`
+5. installs locked dependencies
+6. runs `just check`
+
+Local and CI behavior should remain equivalent.
+
+## Dependency updates
+
+Dependabot monitors:
+
+* Python dependencies managed through `uv`
+* GitHub Actions dependencies
+
+Updates are checked weekly.
+
+## Security principles
+
+The project follows these baseline rules:
+
+* never commit credentials or secrets
+* exclude local environment files from Git
+* keep dependencies updated
+* use locked dependencies
+* validate external input
+* avoid unnecessary permissions in CI
+* document security-sensitive decisions
+
+## Architecture decisions
+
+Significant technical decisions are recorded under:
+
+```text
+docs/decisions/
+```
+
+Architecture Decision Records should describe:
+
+* the problem being solved
+* the selected decision
+* rejected alternatives
+* consequences and trade-offs
+
+## Evolution
+
+The architecture should remain conservative.
+
+New tools, frameworks, and infrastructure should be added only when they solve a demonstrated requirement.
+
+Application-specific capabilities such as APIs, databases, AI providers, Docker, cloud infrastructure, or deployment workflows should be introduced incrementally and documented when added.

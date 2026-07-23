@@ -1,0 +1,35 @@
+# ADR-0002: Use the `src` Layout
+
+**Status:** Accepted
+
+## Context
+
+Python packages can either live in the repository root or inside a dedicated `src/` directory.
+
+Keeping importable code under `src/` reduces the risk of accidentally importing local source files instead of the installed package during development.
+
+## Decision
+
+All application code lives under:
+
+```text
+src/{{ package_name }}/
+```
+
+Tests import the installed package created by `uv`, not files directly from the repository.
+
+## Consequences
+
+### Benefits
+
+* Packaging issues are detected earlier.
+* Tests better reflect production behavior.
+* Application code is clearly separated from documentation, tooling, and tests.
+* The project follows modern Python packaging practices.
+
+### Trade-offs
+
+* The package must be installed before it can be imported.
+* Developers unfamiliar with the layout may require a short learning period.
+
+The long-term reliability benefits outweigh these minor inconveniences.
