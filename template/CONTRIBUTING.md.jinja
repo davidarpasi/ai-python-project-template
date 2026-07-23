@@ -1,0 +1,105 @@
+# Contributing to {{ project_name }}
+
+Thank you for contributing to {{ project_name }}.
+
+## Development setup
+
+Clone the repository:
+
+```bash
+git clone https://github.com/{{ github_username }}/{{ project_slug }}.git
+cd {{ project_slug }}
+```
+
+Install dependencies:
+
+```bash
+uv sync
+```
+
+Install the Git hooks:
+
+```bash
+uv run pre-commit install
+```
+
+Verify everything works:
+
+```bash
+just check
+```
+
+---
+
+## Development workflow
+
+1. Create a feature branch.
+2. Make a focused change.
+3. Add or update tests.
+4. Run:
+
+```bash
+just check
+```
+
+5. Commit with a meaningful message.
+6. Open a Pull Request.
+
+---
+
+## Code Quality
+
+Every contribution must pass:
+
+- Ruff linting
+- Ruff formatting
+- Basedpyright
+- Pytest
+- Pre-commit hooks
+
+The authoritative validation command is:
+
+```bash
+just check
+```
+
+---
+
+## Coding Standards
+
+- Prefer explicit, readable code.
+- Keep functions small and focused.
+- Add type hints to new public functions.
+- Add tests for new behavior.
+- Update documentation when behavior changes.
+- Never commit secrets or credentials.
+
+---
+
+## Commit Guidelines
+
+Keep commits:
+
+- Atomic
+- Descriptive
+- Focused on one logical change
+
+Examples:
+
+```text
+feat: add OpenAI client
+fix: handle invalid configuration
+test: add CLI tests
+docs: update architecture
+build: improve CI workflow
+```
+
+---
+
+## Architecture Decisions
+
+Document significant engineering decisions as Architecture Decision Records (ADRs) under:
+
+```text
+docs/decisions/
+```

@@ -1,0 +1,134 @@
+# Definition of Done
+
+## Purpose
+
+This document defines the minimum quality requirements that must be satisfied before work is considered complete in {{ project_name }}.
+
+Completing an implementation is not enough. Every change should also be verified, documented, and maintainable.
+
+## General requirements
+
+A completed change should:
+
+* implement the intended behavior
+* include appropriate tests where practical
+* pass the full quality pipeline
+* avoid introducing regressions
+* update documentation when required
+* be reviewed before merging
+
+## Project structure
+
+The repository should maintain the expected structure:
+
+* `src/`
+* `tests/`
+* `docs/`
+* `README.md`
+* `LICENSE`
+* `CHANGELOG.md`
+* `CONTRIBUTING.md`
+* `pyproject.toml`
+
+## Code quality
+
+Every completed change must pass:
+
+```bash
+just check
+```
+
+This validates:
+
+* Ruff linting
+* Ruff formatting
+* Basedpyright static analysis
+* Pytest
+
+No warnings or errors should be ignored without documented justification.
+
+## Testing
+
+Completed work should:
+
+* include tests for new behavior where practical
+* preserve existing passing tests
+* avoid flaky or order-dependent tests
+* avoid unnecessary external dependencies in unit tests
+
+Regression fixes should include a regression test whenever reasonable.
+
+## Packaging
+
+The project must:
+
+* install successfully using `uv sync`
+* build successfully using Hatchling
+* keep `uv.lock` committed and current
+* maintain a valid package structure under:
+
+```text
+src/{{ package_name }}/
+```
+
+## Documentation
+
+Documentation should be updated whenever changes affect:
+
+* setup
+* development workflow
+* commands
+* configuration
+* architecture
+* public behavior
+
+Architecture decisions should be recorded as ADRs when appropriate.
+
+## Version control
+
+Before merging:
+
+* commits should be atomic
+* commit messages should be descriptive
+* unrelated changes should not be mixed together
+* generated artifacts should not be committed
+
+The working tree should be clean after validation.
+
+## Continuous Integration
+
+The CI pipeline must succeed before changes are merged.
+
+Local validation and CI should use equivalent commands to minimize environment-specific failures.
+
+## Security
+
+Completed work must not:
+
+* expose secrets
+* reduce dependency security without justification
+* introduce unnecessary permissions
+* weaken validation without documentation
+
+Sensitive information must never be committed to the repository.
+
+## Maintainability
+
+New code should:
+
+* follow the documented development standards
+* integrate naturally with the existing project structure
+* avoid unnecessary complexity
+* remain understandable to another engineer without relying on chat history
+
+## Completion checklist
+
+A change is considered complete when:
+
+* [ ] Implementation is finished
+* [ ] Tests have been added or updated where appropriate
+* [ ] `just check` passes
+* [ ] Documentation has been updated where required
+* [ ] The Git diff has been reviewed
+* [ ] The commit is focused and descriptive
+* [ ] CI passes after pushing

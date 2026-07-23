@@ -1,0 +1,45 @@
+_min_copier_version: "9.0.0"
+_subdirectory: template
+_answers_file: .copier-answers.yml
+
+project_name:
+  type: str
+  help: Human-readable project name
+  default: Awesome AI Project
+
+project_slug:
+  type: str
+  help: Repository and directory name
+  default: "{{ project_name | lower | replace(' ', '-') | replace('_', '-') }}"
+
+package_name:
+  type: str
+  help: Python import package name
+  default: "{{ project_slug | replace('-', '_') }}"
+
+project_description:
+  type: str
+  help: Short project description
+  default: A production-ready Python AI project.
+
+author_name:
+  type: str
+  help: Project author
+  default: David Árpási
+
+github_username:
+  type: str
+  help: GitHub username
+  default: davidarpasi
+
+python_version:
+  type: str
+  help: Minimum supported Python version
+  default: "3.12"
+
+license:
+  type: str
+  help: Project license
+  choices:
+    - MIT
+  default: MIT

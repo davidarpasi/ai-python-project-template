@@ -1,0 +1,41 @@
+# ADR-0001: Use `uv` for Python Management
+
+**Status:** Accepted
+
+## Context
+
+The project requires a single tool to manage:
+
+* Python versions
+* virtual environments
+* dependency installation
+* dependency locking
+* package execution
+
+Using multiple tools for these responsibilities increases complexity and maintenance effort.
+
+## Decision
+
+Use **uv** as the standard Python project manager.
+
+The project will:
+
+* manage dependencies with `uv`
+* commit `uv.lock`
+* execute development tools through `uv run`
+* avoid introducing additional package managers unless there is a justified project-specific requirement
+
+## Consequences
+
+### Benefits
+
+* Fast dependency resolution
+* Reproducible environments
+* Modern Python workflow
+* Reduced tooling complexity
+
+### Trade-offs
+
+* Contributors unfamiliar with `uv` must learn a new workflow.
+
+The benefits outweigh the migration cost.
