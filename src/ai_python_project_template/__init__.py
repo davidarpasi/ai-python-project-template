@@ -1,3 +1,3 @@
-"""Reusable foundation for production-ready Python AI projects."""
+"""Reusable Python project template."""
 
 __version__ = "0.1.0"

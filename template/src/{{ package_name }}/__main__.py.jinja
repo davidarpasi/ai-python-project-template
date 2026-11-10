@@ -1,9 +1,8 @@
-"""Command-line entry point for {{ project_name }}."""
+"""Starter command."""
 
 
 def main() -> None:
-    """Run the application."""
-    print("{{ project_name }} is ready.")
+    print({{ (project_name ~ ' is ready.') | tojson }})
 
 
 if __name__ == "__main__":

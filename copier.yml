@@ -5,22 +5,24 @@ _answers_file: .copier-answers.yml
 project_name:
   type: str
   help: Human-readable project name
-  default: Awesome AI Project
+  default: Example Service
 
 project_slug:
   type: str
   help: Repository and directory name
   default: "{{ project_name | lower | replace(' ', '-') | replace('_', '-') }}"
+  validator: "{% if not (project_slug | regex_search('^[a-z][a-z0-9-]*$')) %}Use lowercase letters, digits and hyphens, starting with a letter.{% endif %}"
 
 package_name:
   type: str
   help: Python import package name
   default: "{{ project_slug | replace('-', '_') }}"
+  validator: "{% if not (package_name | regex_search('^[a-z][a-z0-9_]*$')) or package_name in ['class', 'def', 'import', 'return', 'from', 'pass', 'while', 'for', 'if', 'else', 'try', 'except', 'with', 'lambda', 'global', 'nonlocal', 'assert', 'del', 'raise', 'yield', 'break', 'continue', 'finally', 'and', 'or', 'not', 'in', 'is', 'as', 'async', 'await', 'elif'] %}Use a valid lowercase Python package name.{% endif %}"
 
 project_description:
   type: str
   help: Short project description
-  default: A production-ready Python AI project.
+  default: A Python service.
 
 author_name:
   type: str
@@ -36,6 +38,7 @@ python_version:
   type: str
   help: Minimum supported Python version
   default: "3.12"
+  choices: ["3.12", "3.13", "3.14"]
 
 license:
   type: str

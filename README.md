@@ -1,149 +1,52 @@
-# AI Python Project Template
+# Python Project Template
 
-A production-ready Python template for building AI applications, automation tools, APIs, and services using modern Python engineering practices.
+I made this because I kept setting up the same tools whenever I started a Python project. It gives me a package layout, tests, linting, type checks and CI in one place.
 
-The goal of this repository is to provide a consistent, high-quality starting point for new projects so that development can begin immediately without repeatedly configuring tooling, packaging, testing, and code quality.
+The repository name still includes AI, but there is no AI dependency. I use the same setup for scripts, services and experiments.
 
----
+## Create a project
 
-## Features
+Install Python 3.12+, [uv](https://docs.astral.sh/uv/) and [just](https://just.systems/).
 
-* Modern Python packaging (`src/` layout)
-* `uv` for dependency and environment management
-* Ruff for linting and formatting
-* Basedpyright for static type checking
-* Pytest for testing
-* Pre-commit hooks
-* `just` task runner
-* Architecture Decision Records (ADRs)
-* Opinionated engineering standards
-* Clean, atomic Git history
+```bash
+uvx copier copy --vcs-ref=main https://github.com/davidarpasi/ai-python-project-template.git my-service
+cd my-service
+uv sync
+uv run pre-commit install
+just check
+```
 
----
+Copier asks for the project and package names. `uv sync` creates the project's own lockfile; commit `uv.lock` before pushing so CI can use `uv sync --locked`.
 
-## Requirements
+The generated project is a starting point. Its command prints a ready message. It does not include an API, deployment, database or application logic.
 
-* Python 3.12 or newer
-* `uv`
-* `just`
-* Git
-
----
-
-## Getting Started
-
-Clone the repository:
+## Work on the template
 
 ```bash
 git clone https://github.com/davidarpasi/ai-python-project-template.git
 cd ai-python-project-template
-```
-
-Install dependencies:
-
-```bash
-uv sync
-```
-
-Verify the environment:
-
-```bash
+uv sync --locked
+uv run pre-commit install
 just check
 ```
 
----
+`just check` runs Ruff, Basedpyright and pytest. The integration tests generate a project with different names, check that Copier saves its answers, and exercise an update from a temporary Git template. CI also installs, checks and builds a generated project.
 
-## Daily Workflow
+## What is included
 
-Format the project:
+- A `src/` package layout and command-line entry point
+- uv for environments and locked dependencies
+- Ruff for formatting and linting
+- Basedpyright for type checks
+- pytest and coverage reporting
+- Pre-commit hooks, enabled by running the install command above
+- GitHub Actions and Dependabot configuration
+- Short development notes and architecture decisions
 
-```bash
-just format
-```
+Coverage is reported; there is no coverage percentage gate. I care more about testing useful behavior than making the greeting example score well.
 
-Run all quality checks:
+## Updating a generated project
 
-```bash
-just check
-```
+Commit your changes first, then run `uvx copier update --vcs-ref=main --overwrite` from the generated repository. Review the diff and resolve conflicts before committing the update. Keep `.copier-answers.yml`; Copier uses it to remember the source and answers.
 
-Run the test suite:
-
-```bash
-just test
-```
-
-Automatically fix formatting and lint issues where possible:
-
-```bash
-just fix
-```
-
----
-
-## Repository Structure
-
-```text
-.
-├── docs/
-│   ├── architecture.md
-│   ├── development-standards.md
-│   ├── definition-of-done.md
-│   └── decisions/
-├── src/
-│   └── ai_python_project_template/
-├── tests/
-│   ├── integration/
-│   └── unit/
-├── pyproject.toml
-├── justfile
-└── README.md
-```
-
----
-
-## Quality Standards
-
-Every change should satisfy the complete quality pipeline:
-
-```bash
-just check
-```
-
-This executes:
-
-* Ruff (linting)
-* Ruff (format validation)
-* Basedpyright
-* Pytest
-
-Pre-commit hooks run automatically before each commit to enforce basic repository hygiene.
-
----
-
-## Documentation
-
-Additional documentation is available in the `docs/` directory:
-
-* Architecture overview
-* Engineering standards
-* Definition of Done
-* Architecture Decision Records (ADRs)
-
----
-
-## Roadmap
-
-Planned improvements include:
-
-* GitHub Actions CI
-* Dependabot
-* Coverage reporting
-* Copier template generation
-* Release automation
-
----
-
-## License
-
-This project is licensed under the MIT License.
+MIT license.
