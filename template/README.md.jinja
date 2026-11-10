@@ -2,37 +2,24 @@
 
 {{ project_description }}
 
-## Requirements
-
-- Python {{ python_version }}+
-- uv
-
 ## Development
 
-Install dependencies:
+Requires Python {{ python_version }}+, uv and just.
 
 ```bash
 uv sync
-```
-
-Run the quality pipeline:
-
-```bash
+uv run pre-commit install
 just check
 ```
 
-Run the test suite:
+Commit `uv.lock` after the first sync. CI installs with `uv sync --locked`.
 
-```bash
-just test
-```
+`just check` runs linting, formatting checks, type checks and tests. `just format` formats the code. `uv run {{ project_slug }}` runs the starter command.
 
-Format the project:
+This is a starter package. Replace the greeting and its smoke tests with the application and tests you need.
 
-```bash
-just format
-```
+## Template updates
 
-## License
+With a clean Git working tree, run `uvx copier update --vcs-ref=main --overwrite`. Review the changes before committing. Keep `.copier-answers.yml` so Copier can find the source template.
 
-{{ license }}
+{{ license }} license.
